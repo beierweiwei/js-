@@ -52,5 +52,93 @@ funtion Gadget() {
 }
 
 /**
- * note: 对于这种意外行为的解决方法：
+ * note: 对于这种意外行为的解决方法，使用getSpec()返回一个新对象，只包含sepcsz中你需要的数据。最低授权原则
+ * 		另一种方法就是克隆函数创建对象副本
  */
+
+
+
+/**
+ * 对象字面量及私有性
+ */
+
+var myobj
+(function() {
+	var name = 'my, oh my';
+	myobj = {
+		getName: function() {
+			return name;
+		}
+	}
+})
+
+//或者
+var myobj = (function() {
+	var name = 'my, oh my';
+	return {
+		getName: function() {
+			return name;
+		}
+	}
+})()
+
+/**
+ * 这个例子也称为模块模式的基础框架。
+ */
+
+/**
+ * 原型和私有性
+ *
+ * 当私有成员与构造函数一起使用时， 其中的一个缺点在于每次调用构造函数以创建函数时，这些私有成员都会被重新创建。
+ * 解决办法：可以将常用的属性和方法添加到构造函数的prototype中。
+ * 实现这一点可以使用构造函数中的私有属性和对象字面量中的私有属性 
+ */
+
+function Gadget() {
+	//私有成员
+	var name = 'ipod';
+	//公有函数
+	this.getName = function() {
+		return name;
+	}
+}
+
+Gadget.prototype = (function() {
+	var browser = 'Mobile Webkit';
+	return {
+		getBrowser: function() {
+			return this.borwser;
+		}
+	}
+})()
+
+/**
+ * 将私有方法揭示为公共方法
+ *
+ * 将构造函数、或对象的私有方法，暴露到对象的方法上。
+ */
+var myarray;
+(function() {
+	var toString = Object.prototype.toString;
+	var arrayToStr = '[object array]';
+
+	function isArray(arr) {
+		return toString.call(arr) === arrayToStr
+	}
+	function indexOf(arr, item) {
+		var i = 0, len = arr.length;
+		for(; i < len; i++) {
+			if(arr[i] === item) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	myarray = {
+		isArray: isArray,
+		indexOf: indexOf,
+		inArray: indexOf
+	}
+
+})()
