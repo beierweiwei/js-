@@ -159,7 +159,7 @@ function Sandbox() {
 }
 
 //Sandbox 需要的原型属性
-Sanbox.prototype = {
+Sandbox.prototype = {
 	name: 'my application',
 	version: '1.0',
 	getName: function() {
